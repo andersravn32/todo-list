@@ -51,6 +51,7 @@ module.exports = async (req, res) => {
 
     // Delete hashed user password from user object after insert
     delete user.password;
+    delete user._id;
 
     // Create accessToken
     const accessToken = jwt.sign(
