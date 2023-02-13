@@ -12,7 +12,7 @@ module.exports = {
     }
 
     // Return connection object
-    return connection;
+    return connection.db(process.env.MONGODB_NAME);
   },
 
   get: () => {
@@ -22,6 +22,6 @@ module.exports = {
     }
 
     // Return connection object
-    return connection;
+    return connection.db(process.env.MONGODB_NAME);
   },
 };
