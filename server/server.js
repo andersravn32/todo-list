@@ -4,6 +4,7 @@ const app = express();
 const server = http.createServer(app);
 const dotenv = require("dotenv");
 const cors = require("cors");
+const database = require("./utilities/database");
 
 // Async init method, for creating initial database connection
 const init = async () => {
@@ -12,6 +13,7 @@ const init = async () => {
     dotenv.config();
 
     // Create database connection pool
+    database.connect();
     console.log("Connected to database")
 
     // Configure cors to accept every connection
@@ -26,3 +28,5 @@ const init = async () => {
         console.log("Server is ready for requests")
     });
 }
+
+init();
