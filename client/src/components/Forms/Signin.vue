@@ -72,6 +72,7 @@ const signin = async () => {
         placeholder="Indtast password"
       />
     </div>
+    <p v-if="requestError.length" class="text-red-500">{{ requestError }}</p>
     <button class="bg-blue-500 text-white uppercase font-bold py-2 px-6">
       Log på
     </button>
