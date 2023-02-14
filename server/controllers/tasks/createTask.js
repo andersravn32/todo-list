@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
   const todo = {
     ...TODO,
     title: req.body.title,
-    due: req.body.due || 0,
+    due: req.body.due || new Date() / 1000,
     owner: req.user.uuid,
   };
 
