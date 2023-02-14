@@ -7,7 +7,7 @@ module.exports = {
 
     if (!token) {
       return res.json({
-        message: "Missing access token",
+        error: "Missing access token",
       });
     }
 
@@ -25,7 +25,7 @@ module.exports = {
       next();
     } catch (error) {
       return res.json({
-        message: "Provided access token has either expired or is invalid",
+        error: "Provided access token has either expired or is invalid",
         ...error,
       });
     }
