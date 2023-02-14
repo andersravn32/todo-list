@@ -1,7 +1,4 @@
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 const user = ref(null);
 const refreshToken = ref(localStorage.getItem("refreshToken") || null);
 const accessToken = ref(localStorage.getItem("accessToken") || null);
@@ -98,9 +95,11 @@ const useAccount = () => {
 
     // Clear localStorage
     localStorage.clear();
+    
+
 
     // Return response
-    return router.push("/signin")
+    return response;
   };
 
   const refresh = async () => {
