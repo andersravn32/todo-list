@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
     // Return error if duplicate was found
     if (duplicates) {
-      return res.json({ message: "E-mail is already in use" });
+      return res.json({ error: "E-mail is already in use" });
     }
 
     // Create hashed password
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
     // Insert user data into database
     const userInsert = await db.collection("users").insertOne(user);
     if (!userInsert.insertedId) {
-      return res.json({ message: "Failed to create account" });
+      return res.json({ error: "Failed to create account" });
     }
 
     // Delete hashed user password from user object after insert
@@ -93,17 +93,19 @@ module.exports = async (req, res) => {
 
     if (!refreshInsert.acknowledged) {
       return res.json({
-        message: "Failed to create account",
+        error: "Failed to create account",
       });
     }
 
     // Return user data, accessToken and refreshToken to requesting user
     res.json({
-        accessToken,
-        refreshToken,
-        user
-    })
+      accessToken,
+      refreshToken,
+      user,
+    });
   } catch (error) {
-    return res.json(error);
+    return res.json({
+      error: error,
+    });
   }
 };

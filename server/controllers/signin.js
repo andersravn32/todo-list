@@ -1,6 +1,6 @@
 const database = require("../utilities/database");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
   // Get email and password from request body
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   // If credentials are missing from request, return an error
   if (!email || !password) {
     return res.json({
-      message: "Missing credentials",
+      error: "Missing credentials",
     });
   }
 
@@ -23,14 +23,14 @@ module.exports = async (req, res) => {
     // If no user was found, return error
     if (!user) {
       return res.json({
-        message: "Wrong email/password",
+        error: "Wrong email/password",
       });
     }
 
     // Compare passwords using bcrypt
     if (!(await bcrypt.compare(password, user.password))) {
       return res.json({
-        message: "Wrong email/password",
+        error: "Wrong email/password",
       });
     }
 
@@ -78,7 +78,7 @@ module.exports = async (req, res) => {
 
     if (!refreshInsert.acknowledged) {
       return res.json({
-        message: "Failed to signin",
+        error: "Failed to signin",
       });
     }
 
@@ -89,7 +89,9 @@ module.exports = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error)
-    return res.json(error);
+    console.log(error);
+    return res.json({
+      error: error,
+    });
   }
 };

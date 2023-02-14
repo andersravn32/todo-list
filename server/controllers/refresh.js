@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     // If given token doesnt exist or type is not refresh, return error
     if (!token || !(token.type == "refresh")) {
       return res.json({
-        message: "The token provided is not valid",
+        error: "The token provided is not valid",
       });
     }
 
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
 
       // Return error
       return res.json({
-        message: "The token provided has expired, please signin again",
+        error: "The token provided has expired, please signin again",
       });
     }
 
@@ -64,7 +64,9 @@ module.exports = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error)
-    return res.json(error);
+    console.log(error);
+    return res.json({
+      error: error,
+    });
   }
 };

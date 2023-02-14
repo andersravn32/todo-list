@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   // Get jwt from request body
   if (!req.body.token) {
     return res.json({
-      message: "Missing jwt",
+      error: "Missing jwt",
     });
   }
 
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     // If no token was deleted from database, return error to user
     if (!tokenDelete.acknowledged || !tokenDelete.deletedCount) {
       return res.json({
-        message: "Failed to signout",
+        error: "Failed to signout",
       });
     }
 
@@ -28,6 +28,8 @@ module.exports = async (req, res) => {
         message: "Signed out"
     })
   } catch (error) {
-    return res.json(error);
+    return res.json({
+      error: error
+    });
   }
 };
