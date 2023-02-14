@@ -81,7 +81,8 @@ const useAccount = () => {
       body: JSON.stringify({
         token: refreshToken.value,
       }),
-    });
+    })
+    .then(res => res.json());
 
     // Guard statement
     if (response.error) {
