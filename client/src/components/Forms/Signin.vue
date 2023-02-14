@@ -2,8 +2,13 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+import useAccount from "../../composables/useAccount";
+
 // Import router
 const router = useRouter();
+
+// Import account data store
+const account = useAccount();
 
 // Ref object for storing form data
 const formData = ref({
@@ -24,31 +29,22 @@ const signin = async () => {
     return;
   }
 
-  // Fetch accessToken, refreshToken and user data from server
-  const { accessToken, refreshToken, user, error } = await fetch(
-    "http://127.0.0.1:3000/auth/signin",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData.value),
-    }
-  ).then((res) => res.json());
+  // Update loading state
+  loading.value = true;
 
-  // If an error occurred, return
-  if (error) {
-    // Set requestError to response from server
-    requestError.value = error;
-    return;
+  // Request signin through composable
+  const response = await account.signin(
+    formData.value.email,
+    formData.value.password
+  );
+  if (response.error) {
+    return (requestError.value = result.error);
   }
 
-  // Store response values in localStorage
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("refreshToken", refreshToken);
-  localStorage.setItem("user", JSON.stringify(user));
+  // Update loading state
+  loading.value = false;
 
-  // Redirect to index
+  // Redirect back to index
   return router.push("/");
 };
 </script>
@@ -87,14 +83,14 @@ const signin = async () => {
 
 <style>
 #form-signin {
-  @apply  w-full max-w-md;
+  @apply w-full max-w-md;
 }
 
-#form-signin input{
+#form-signin input {
   @apply py-1 px-3 border-slate-300 border-2 rounded outline-none;
 }
 
-#form-signin button{
+#form-signin button {
   @apply bg-blue-500 text-white uppercase font-bold py-2 px-6;
 }
 </style>

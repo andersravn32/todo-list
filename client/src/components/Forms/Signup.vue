@@ -1,5 +1,9 @@
 <script setup>
 import { ref } from "vue";
+import useAccount from "../../composables/useAccount";
+
+// useAccount composable
+const account = useAccount();
 
 // Ref object for storing form data
 const formData = ref({
@@ -21,31 +25,26 @@ const signup = async () => {
     return;
   }
 
-  // Fetch accessToken, refreshToken and user data from server
-  const { accessToken, refreshToken, user, error } = await fetch(
-    "http://127.0.0.1:3000/auth/signup",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData.value),
-    }
-  ).then((res) => res.json());
+  // Update loading state
+  loading.value = true;
 
-  console.log(accessToken, refreshToken, user, error);
+  // Perform signup through useAccount composable
+  const response = await account.signup(
+    formData.value.firstName,
+    formData.value.lastName,
+    formData.value.email,
+    formData.value.password
+  );
 
   // If an error occurred, return
-  if (error) {
+  if (response.error) {
     // Set requestError to response from server
-    requestError.value = error;
+    requestError.value = response.error;
     return;
   }
 
-  // Store response values in localStorage
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("refreshToken", refreshToken);
-  localStorage.setItem("user", JSON.stringify(user));
+  // Update loading state
+  loading.value = false;
 
   // Redirect to index
   return router.push("/");
