@@ -47,7 +47,7 @@ const signup = async () => {
   loading.value = false;
 
   // Redirect to index
-  return router.push("/");
+  return router.push("/app");
 };
 </script>
 

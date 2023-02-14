@@ -45,7 +45,7 @@ const signin = async () => {
   loading.value = false;
 
   // Redirect back to index
-  return router.push("/");
+  return router.push("/app");
 };
 </script>
 
