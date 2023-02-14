@@ -15,6 +15,9 @@ const init = async () => {
   database.connect();
   console.log("Connected to database");
 
+  // Configure morgan as default HTTP logger
+  app.use(require("morgan")("dev"));
+
   // Configure cors to accept every connection
   app.use(
     cors({
