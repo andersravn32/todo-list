@@ -1,11 +1,10 @@
 import { ref } from "vue";
 
 const user = ref(null);
-const refreshToken = ref(null);
-const accessToken = ref(null);
+const refreshToken = ref(localStorage.getItem("refreshToken") || null);
+const accessToken = ref(localStorage.getItem("accessToken") || null);
 
 const useAccount = () => {
-
   const signin = async (email, password) => {
     const response = await fetch("http://127.0.0.1:3000/auth/signin", {
       method: "POST",
@@ -119,6 +118,13 @@ const useAccount = () => {
 
     // Guard statement
     if (response.error) {
+      // Reset local storage
+      localStorage.clear();
+
+      // Reset data store
+      user.value = null;
+      refreshToken.value = null;
+      accessToken.value = null;
       return response;
     }
 
