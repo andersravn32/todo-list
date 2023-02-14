@@ -18,6 +18,6 @@ const account = useAccount();
 
 <style>
 #todolist {
-  @apply border-2 border-slate-300 p-4 w-full max-w-2xl rounded flex flex-col;
+  @apply border-2 border-slate-300 p-4 w-full max-w-4xl rounded flex flex-col;
 }
 </style>
