@@ -1,12 +1,6 @@
-<script setup>
-import Todolist from "../components/Todolist.vue";
-
-const refreshToken = localStorage.getItem("accessToken");
-</script>
 <template>
-  <section id="page-todo">
+  <section id="page-index">
     <div
-      v-if="!refreshToken"
       class="border-2 border-slate-300 p-4 rounded w-full max-w-md flex flex-col space-y-4 justify-center items-center text-center"
     >
       <h1 class="text-2xl">Log på</h1>
@@ -24,12 +18,11 @@ const refreshToken = localStorage.getItem("accessToken");
         >
       </p>
     </div>
-    <Todolist v-if="refreshToken" />
   </section>
 </template>
 
 <style>
-#page-todo {
+#page-index {
   @apply min-h-screen flex flex-col items-center justify-center;
 }
 </style>
