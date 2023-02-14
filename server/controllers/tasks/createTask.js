@@ -7,11 +7,17 @@ const TODO = {
 };
 
 module.exports = async (req, res) => {
+  if (!req.body.title || !req.body.title.length) {
+    return res.json({
+        error: "Missing title"
+    })
+  }
+
   // Create new todo object based on static object
   const todo = {
     ...TODO,
     title: req.body.title,
-    due: req.body.due,
+    due: req.body.due || 0,
     owner: req.user.uuid,
   };
 
@@ -34,7 +40,6 @@ module.exports = async (req, res) => {
       ...todo,
       _id: taskInsert.insertedId,
     });
-    
   } catch (error) {
     console.log(error);
     return res.json({
