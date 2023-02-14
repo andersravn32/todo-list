@@ -2,6 +2,7 @@ const database = require("../../utilities/database");
 
 const TODO = {
   title: null,
+  startDate: null,
   due: null,
   done: false,
 };
@@ -9,14 +10,15 @@ const TODO = {
 module.exports = async (req, res) => {
   if (!req.body.title || !req.body.title.length) {
     return res.json({
-        error: "Missing title"
-    })
+      error: "Missing title",
+    });
   }
 
   // Create new todo object based on static object
   const todo = {
     ...TODO,
     title: req.body.title,
+    startDate: req.body.startDate || Math.floor(new Date() / 1000),
     due: req.body.due || Math.floor(new Date() / 1000),
     owner: req.user.uuid,
   };
