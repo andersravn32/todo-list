@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import useAccount from "../../composables/useAccount";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 // useAccount composable
 const account = useAccount();
