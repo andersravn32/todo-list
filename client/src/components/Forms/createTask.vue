@@ -1,11 +1,11 @@
 <script setup>
 import { ref, defineEmits } from "vue";
-import useAccount from "../../composables/useAccount";
+import useTasks from "../../composables/useTasks";
 
-const emit = defineEmits(["done"]);
+const emit = defineEmits(["done", "close"]);
+const tasks = useTasks();
 
-// Import account data from composable
-const account = useAccount();
+const requestError = ref("");
 
 // Loading state
 const loading = ref(false);
@@ -25,18 +25,17 @@ const createTask = async () => {
   // Update loading state
   loading.value = true;
 
-  // Request to create new task
-  const response = await fetch("http://127.0.0.1:3000/tasks", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: account.accessToken.value,
-    },
-    body: JSON.stringify({
-      title: newTask.value.title,
-      due: Math.floor(new Date(newTask.value.due) / 1000),
-    }),
-  }).then((res) => res.json());
+  // Create task through composable
+  const response = await tasks.create(
+    newTask.value.title,
+    Math.floor(new Date(newTask.value.due) / 1000)
+  );
+
+  // If an error occurred, set local value to response error
+  if (response.error) {
+    loading.value = false;
+    return (requestError.value = response.error);
+  }
 
   // Update loading state
   loading.value = false;
@@ -46,15 +45,30 @@ const createTask = async () => {
   newTask.value.title = null;
 
   // Emit done event, along with response object
-  emit("done", response)
+  emit("close");
+};
+
+const handleOverlay = (e) => {
+  if (e.target.className == "overlay") {
+    return emit("close");
+  }
 };
 </script>
 
 <template>
-  <form id="form-create-task" @submit.prevent="createTask">
-    <h2>Opret todo</h2>
-    <input v-model="newTask.title" type="text" placeholder="Indtast titel" />
-    <input v-model="newTask.due" type="datetime-local" />
-    <button>Opret todo</button>
-  </form>
+  <div class="overlay" @click="handleOverlay">
+    <form id="form-create-task" @submit.prevent="createTask">
+      <h2 class="text-xl">Opret todo</h2>
+      <input v-model="newTask.title" type="text" placeholder="Indtast titel" />
+      <input v-model="newTask.due" type="datetime-local" />
+      <p v-if="requestError.length" class="text-red-500">{{ requestError }}</p>
+      <button>Opret todo</button>
+    </form>
+  </div>
 </template>
+
+<style>
+#form-create-task {
+  @apply bg-zinc-100 w-full max-w-md;
+}
+</style>
