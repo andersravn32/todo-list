@@ -1,9 +1,10 @@
 import { ref } from "vue";
 
-export default () => {
-  const user = ref(null);
-  const refreshToken = ref(null);
-  const accessToken = ref(null);
+const user = ref(null);
+const refreshToken = ref(null);
+const accessToken = ref(null);
+
+const useAccount = () => {
 
   const signin = async (email, password) => {
     const response = await fetch("http://127.0.0.1:3000/auth/signin", {
@@ -137,3 +138,5 @@ export default () => {
 
   return { user, refreshToken, accessToken, signin, signout, signup, refresh };
 };
+
+export default useAccount;
