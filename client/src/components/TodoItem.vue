@@ -66,7 +66,7 @@ const deleteTask = async (task) => {
     </div>
     <div v-if="expanded" class="task-content">
       <div class="flex flex-col space-y-2">
-        <h3>{{ data.title }}</h3>
+        <h3 class="text-2xl">{{ data.title }}</h3>
         <p>{{ data.description }}</p>
       </div>
 
