@@ -25,7 +25,7 @@ const useTasks = () => {
     return response;
   };
 
-  const create = async (title, due) => {
+  const create = async (title, description, startDate, due, priority) => {
     // If user is not logged in
     if (!account.user.value) {
       return;
@@ -40,7 +40,10 @@ const useTasks = () => {
       },
       body: JSON.stringify({
         title: title,
+        description,
         due: due,
+        startDate: startDate,
+        priority: priority
       }),
     }).then((res) => res.json());
 
@@ -79,7 +82,7 @@ const useTasks = () => {
     return response;
   };
 
-  const update = async (id, title, due, done) => {
+  const update = async (id, title, description, startDate, due, done, priority) => {
     // If user is not logged in
     if (!account.user.value) {
       return;
@@ -91,7 +94,14 @@ const useTasks = () => {
         "Content-Type": "application/json",
         Authorization: account.accessToken.value,
       },
-      body: JSON.stringify({ title: title, due: due, done: done }),
+      body: JSON.stringify({
+        title: title,
+        description,
+        due: due,
+        done: done,
+        startDate: startDate,
+        priority: priority
+      }),
     }).then((res) => res.json());
 
     // If an error occurred, return nothing
