@@ -38,7 +38,7 @@ const signin = async () => {
     formData.value.password
   );
   if (response.error) {
-    return (requestError.value = result.error);
+    return (requestError.value = response.error);
   }
 
   // Update loading state
