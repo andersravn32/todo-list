@@ -10,7 +10,7 @@ body {
   @apply bg-slate-100 text-sm;
 }
 
-input {
+input, select, textarea{
   @apply py-1 px-3 border-slate-300 border-2 rounded outline-none;
 }
 
