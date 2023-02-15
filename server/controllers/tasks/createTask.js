@@ -1,10 +1,21 @@
 const database = require("../../utilities/database");
 
+/*
+
+Priority:
+0 - Not important
+1 - Slightly important
+2 - Very important
+
+*/
+
 const TODO = {
   title: null,
+  description: null,
   startDate: null,
   due: null,
   done: false,
+  priority: null
 };
 
 module.exports = async (req, res) => {
@@ -18,8 +29,10 @@ module.exports = async (req, res) => {
   const todo = {
     ...TODO,
     title: req.body.title,
+    description: req.body.description || null,
     startDate: req.body.startDate || Math.floor(new Date() / 1000),
     due: req.body.due || Math.floor(new Date() / 1000),
+    priority: req.body.priority || 0,
     owner: req.user.uuid,
   };
 
