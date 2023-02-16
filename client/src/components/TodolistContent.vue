@@ -2,18 +2,10 @@
 import useTasks from "../composables/useTasks";
 import TodoItem from "./TodoItem.vue";
 
+// Refresh tasks on initial load
 const tasks = useTasks();
 tasks.refresh();
 
-const removeTask = async (id) => {
-  await tasks.remove(id);
-  await tasks.refresh();
-};
-
-const updateTask = async (id, title, due, done) => {
-  await tasks.update(id, title, due, done);
-  await tasks.refresh();
-};
 </script>
 
 <template>
